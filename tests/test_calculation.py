@@ -13,7 +13,6 @@ from fibonacci import accumulately, cythonely, iterately, lambdely, recursely
     partial(lambdely.calculate, Y),
     partial(lambdely.calculate, Y_SHORT),
     partial(lambdely.calculate, Y_LONG),
-    # TODO partial(lambdely.calculate, Y_LAZY),
     partial(accumulately.calculate, Y),
     partial(accumulately.calculate, Y_SHORT),
     partial(accumulately.calculate, Y_LONG),
