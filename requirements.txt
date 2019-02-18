@@ -1,0 +1,6 @@
+# Requirements
+
+cython
+numpy
+pandas
+pytest
