@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import pytest
 from functools import partial
 
-from structure.ycombinator import Y, Y_SHORT, Y_LONG, Y_LAZY, Y_VAR
+from structure.ycombinator import Y, Y_SHORT, Y_LONG, Y_LAZY
 from fibonacci import accumulately, cythonely, iterately, lambdely, recursely
 
 
@@ -13,12 +13,10 @@ from fibonacci import accumulately, cythonely, iterately, lambdely, recursely
     partial(lambdely.calculate, Y),
     partial(lambdely.calculate, Y_SHORT),
     partial(lambdely.calculate, Y_LONG),
-    partial(lambdely.calculate, Y_VAR),
     # TODO partial(lambdely.calculate, Y_LAZY),
     partial(accumulately.calculate, Y),
     partial(accumulately.calculate, Y_SHORT),
     partial(accumulately.calculate, Y_LONG),
-    # TODO partial(accumulately.calculate, Y_VAR),
     partial(accumulately.calculate, Y_LAZY),
 ])
 def calculating_fn(request):
