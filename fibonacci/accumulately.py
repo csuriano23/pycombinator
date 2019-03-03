@@ -11,4 +11,4 @@ def calculate(combinator, n):
             out = out()
         return out
 
-    return wrapper(n + 1, 0, 1)
+    return wrapper(n, 0, 1)

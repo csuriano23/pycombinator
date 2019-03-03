@@ -5,7 +5,7 @@ from functools import partial
 from pandas import DataFrame
 
 from structure.ycombinator import Y, Y_LAZY
-from fibonacci import accumulately, cythonely, iterately, lambdely, recursely
+from fibonacci import accumulately, cythonely, iterately, lambdely, recursely, trampolinely
 
 
 CYCLE_SIZE = 20
@@ -29,6 +29,7 @@ def run():
         # TODO "lazy y-combinator on pure recursion": timed(partial(lambdely.calculate, Y_LAZY)),
         "simple y-combinator on accumulator lambda": timed(partial(accumulately.calculate, Y)),
         "lazy y-combinator on accumulator lambda": timed(partial(accumulately.calculate, Y_LAZY)),
+        "trampoline": timed(trampolinely.calculate)
     }
 
 

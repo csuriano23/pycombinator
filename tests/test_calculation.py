@@ -4,7 +4,7 @@ import pytest
 from functools import partial
 
 from structure.ycombinator import Y, Y_SHORT, Y_LONG, Y_LAZY
-from fibonacci import accumulately, cythonely, iterately, lambdely, recursely
+from fibonacci import accumulately, cythonely, iterately, lambdely, recursely, trampolinely
 
 
 @pytest.fixture(params=[
@@ -17,12 +17,13 @@ from fibonacci import accumulately, cythonely, iterately, lambdely, recursely
     partial(accumulately.calculate, Y_SHORT),
     partial(accumulately.calculate, Y_LONG),
     partial(accumulately.calculate, Y_LAZY),
+    trampolinely.calculate
 ])
 def calculating_fn(request):
     yield request.param
 
 
-@pytest.fixture(params=[i for i in range(30)])
+@pytest.fixture(params=[i for i in range(0, 30)])
 def references(request):
     yield request.param, recursely.calculate(request.param)
 
