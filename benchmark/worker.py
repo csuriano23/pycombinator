@@ -8,35 +8,43 @@ from structure.ycombinator import Y, Y_LAZY
 from fibonacci import accumulately, cythonely, iterately, lambdely, recursely, trampolinely
 
 
-CYCLE_SIZE = 20
+class BenchmarkRun(object):
+    def __init__(self, iterations, cycles):
+        self.iterations = iterations
+        self.cycles = cycles
 
-
-def run():
-    def runner(executor, iterations=20):
+    def runner(self, executor):
         def inner():
-            for i in range(iterations):
+            for i in range(self.iterations):
                 executor(i)
         return inner
 
-    def timed(executor):
-        return lambda: timeit.repeat(runner(executor), number=CYCLE_SIZE)
+    def timed(self, executor):
+        return lambda: timeit.repeat(self.runner(executor), number=self.cycles)
 
-    return {
-        "iterative": timed(iterately.calculate),
-        "recursive": timed(recursely.calculate),
-        "recursive with cython": timed(cythonely.calculate),
-        "simple y-combinator on pure recursion": timed(partial(lambdely.calculate, Y)),
-        # TODO "lazy y-combinator on pure recursion": timed(partial(lambdely.calculate, Y_LAZY)),
-        "simple y-combinator on accumulator lambda": timed(partial(accumulately.calculate, Y)),
-        "lazy y-combinator on accumulator lambda": timed(partial(accumulately.calculate, Y_LAZY)),
-        "trampoline": timed(trampolinely.calculate)
-    }
+    @property
+    def runners(self):
+        return {
+            ("iterative", self.timed(iterately.calculate)),
+            ("recursive", self.timed(recursely.calculate)),
+            ("recursive with cython", self.timed(cythonely.calculate)),
+            ("simple y-combinator on pure recursion", self.timed(partial(lambdely.calculate, Y))),
+            # TODO "lazy y-combinator on pure recursion": timed(partial(lambdely.calculate, Y_LAZY)),
+            ("simple y-combinator on accumulator lambda", self.timed(partial(accumulately.calculate, Y))),
+            ("lazy y-combinator on accumulator lambda", self.timed(partial(accumulately.calculate, Y_LAZY))),
+            ("trampoline", self.timed(trampolinely.calculate))
+        }
 
 
 if __name__ == "__main__":
+    benchmark = BenchmarkRun(20, 20)
     timings = DataFrame(index=["min_fn"])
 
-    for type_of_run, benchmark_fn in run().items():
+    # warmup
+    for _, run in benchmark.runners:
+        run()
+
+    for type_of_run, benchmark_fn in benchmark.runners:
         samples = benchmark_fn()
         timings[type_of_run] = [min(samples)]
 
