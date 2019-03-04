@@ -4,12 +4,13 @@ import pytest
 from functools import partial
 
 from structure.ycombinator import Y, Y_SHORT, Y_LONG, Y_LAZY
-from fibonacci import accumulately, cythonely, iterately, lambdely, recursely, trampolinely, yieldily
+from fibonacci import accumulately, cythonely, iterately, lambdely, lazily, recursely, trampolinely, yieldily
 
 
 @pytest.fixture(params=[
     iterately.calculate,
     cythonely.calculate,
+    lazily.calculate,
     partial(lambdely.calculate, Y),
     partial(lambdely.calculate, Y_SHORT),
     partial(lambdely.calculate, Y_LONG),

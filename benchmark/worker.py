@@ -5,7 +5,7 @@ from functools import partial
 from pandas import DataFrame
 
 from structure.ycombinator import Y, Y_LAZY
-from fibonacci import accumulately, cythonely, iterately, lambdely, recursely, trampolinely, yieldily
+from fibonacci import accumulately, cythonely, iterately, lambdely, lazily, recursely, trampolinely, yieldily
 
 
 class BenchmarkRun(object):
@@ -33,7 +33,8 @@ class BenchmarkRun(object):
             ("simple y-combinator on accumulator lambda", self.timed(partial(accumulately.calculate, Y))),
             ("lazy y-combinator on accumulator lambda", self.timed(partial(accumulately.calculate, Y_LAZY))),
             ("trampoline", self.timed(trampolinely.calculate)),
-            ("generator", self.timed(yieldily.calculate))
+            ("generator", self.timed(yieldily.calculate)),
+            ("lazy trampoline", self.timed(lazily.calculate)),
         }
 
 
